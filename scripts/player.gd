@@ -2,6 +2,14 @@ extends CharacterBody2D
 
 var speed = 300
 
+var rocket_scene = preload("res://scenes/rocket.tscn")
+
+# _process function
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("shoot"):
+		shoot()
+
+# Handle ship physics movement
 func _physics_process(delta: float) -> void:
 	velocity = Vector2(0,0)
 	
@@ -17,22 +25,12 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 	var screen_size = get_viewport_rect().size
-	
-	# Clamp the player movement
-	
-	# Using individual if statements (the manual / hard work)
-	#if global_position.x < 0:
-		#global_position.x = 0
-	#if global_position.x > screen_size.x:
-		#global_position.x = screen_size.x
-	#if global_position.y < 0:
-		#global_position.y = 0
-	#if global_position.y > screen_size.y:
-		#global_position.y = screen_size.y
 		
-	# Using global purpose clamp() function on each axis of global_position 
-	#global_position.x = clamp(global_position.x, 0, screen_size.x)
-	#global_position.y = clamp(global_position.y, 0, screen_size.y)
-	
 	# Using Godot clamp() function on the global position vector 
 	global_position = global_position.clamp(Vector2(0, 0), screen_size)
+		
+# Shoot a rocket from the ship
+func shoot() -> void:
+	var rocket_instance = rocket_scene.instantiate()
+	rocket_instance.global_position.x += 80
+	add_child(rocket_instance)
