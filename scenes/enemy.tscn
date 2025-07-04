@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://8a16ru0yano3"]
+
+[ext_resource type="Script" uid="uid://dnqxf84h7gpeq" path="res://scripts/enemy.gd" id="1_7p1mj"]
+[ext_resource type="Texture2D" uid="uid://i8apkff2oecq" path="res://assets/textures/enemy_ship.png" id="2_md0e3"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8tegq"]
+radius = 27.0
+height = 128.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_md0e3"]
+height = 39.598
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4ra3w"]
+height = 35.3553
+
+[node name="Enemy" type="Area2D"]
+collision_layer = 2
+collision_mask = 13
+script = ExtResource("1_7p1mj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 4.71239
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_md0e3")
+flip_h = true
+
+[node name="CollisionShapeBody" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_8tegq")
+
+[node name="CollisionShapeRightWing" type="CollisionShape2D" parent="."]
+position = Vector2(14, -38)
+rotation = 0.785398
+shape = SubResource("CapsuleShape2D_md0e3")
+
+[node name="CollisionShapeLeftWing" type="CollisionShape2D" parent="."]
+position = Vector2(16, 39)
+rotation = 2.35619
+shape = SubResource("CapsuleShape2D_4ra3w")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

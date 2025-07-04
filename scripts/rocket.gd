@@ -15,6 +15,13 @@ func _physics_process(delta: float) -> void:
 	# rocket will move by frame. This avoids the hardware dependency for FPS.
 	global_position.x += speed * delta
 
-
 func _on_screen_exited() -> void:
+	# Remove the rocket when it goes out of the screen
 	queue_free()
+
+func _on_area_entered(enemy: Area2D) -> void:
+	# Remove the rocket
+	queue_free()
+	
+	# Call die function on the enemy
+	enemy.die()
