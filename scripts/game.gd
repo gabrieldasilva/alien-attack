@@ -3,7 +3,10 @@ extends Node2D
 var lives = 3
 var score = 0
 
+var game_over_scene = preload("res://scenes/game_over_screen.tscn")
+
 @onready var player = $Player
+@onready var ui = $UI
 @onready var hud = $UI/HUD
 
 func _ready() -> void:
@@ -11,7 +14,7 @@ func _ready() -> void:
 	hud.set_lives(lives)
 
 func _on_deathzone_area_entered(enemy: Area2D) -> void:
-	enemy.die()
+	enemy.queue_free()
 
 func _on_player_took_damage() -> void:
 	lives -= 1
@@ -20,6 +23,12 @@ func _on_player_took_damage() -> void:
 	if (lives == 0):
 		print("game over")
 		player.die()
+		
+		await get_tree().create_timer(1).timeout
+		
+		var gos = game_over_scene.instantiate()
+		gos.set_score(score)
+		ui.add_child(gos)
 
 func _on_enemy_spawner_enemy_spawned(enemy_instance: Variant) -> void:
 	enemy_instance.connect("died", _on_enemy_died)
