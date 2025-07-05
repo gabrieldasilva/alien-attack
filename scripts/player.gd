@@ -8,6 +8,8 @@ var rocket_scene = preload("res://scenes/rocket.tscn")
 
 @onready var rocket_container = $RocketContainer # get_node("RocketContainer")
 
+@onready var rocket_shot_sound = $RocketShotSound
+
 # _process function
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("shoot"):
@@ -43,6 +45,9 @@ func shoot() -> void:
 	rocket_instance.global_position.x += 80
 	
 	rocket_container.add_child(rocket_instance)
+	
+	# Play rocket shot sound during instantiation
+	rocket_shot_sound.play()
 	
 func take_damage() -> void:
 	emit_signal("took_damage")
