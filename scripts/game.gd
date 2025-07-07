@@ -46,3 +46,9 @@ func _on_enemy_died() -> void:
 	
 	# Play enemy hit sound
 	enemy_hit_sound.play()
+
+
+func _on_enemy_spawner_path_enemy_spawned(path_enemy_instance: Variant) -> void:
+	# TODO: I think this can be done on the enemy_spawner scene.
+	add_child(path_enemy_instance)
+	path_enemy_instance.enemy.connect("died", _on_enemy_died)
